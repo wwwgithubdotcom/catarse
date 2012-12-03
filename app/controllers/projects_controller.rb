@@ -63,7 +63,10 @@ class ProjectsController < ApplicationController
           Project.visible.search(params[:search])
         end
         # After the search params we order by ID to avoid ties and therefore duplicate items in pagination
-        respond_with(@projects.order('finished, id DESC').page(params[:page]).per(6))
+        if defined? @projects.first.finished
+          @projects = @projects.order('finished, id DESC')
+        end
+        respond_with(@projects.page(params[:page]).per(6))
       end
     end
   end

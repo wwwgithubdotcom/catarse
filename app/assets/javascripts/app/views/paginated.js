@@ -6,6 +6,8 @@ CATARSE.PaginatedView = Backbone.View.extend({
       this.collection = options.collection
     if(options.modelView)
       this.modelView = options.modelView
+    if(options.suggestedView)
+      this.suggestedView = options.suggestedView
     if(options.emptyTemplate)
       this.emptyTemplate = options.emptyTemplate
     if(options.loading)
@@ -48,20 +50,28 @@ CATARSE.PaginatedView = Backbone.View.extend({
 
   afterUpdate: function(){
   },
-  
+
   beforeUpdate: function(){
   },
-  
+
   update: function(){
     this.beforeUpdate()
     this.loading.children().hide()
 		ul_element = this.el.find("ul.collection_list")
     if(!this.collection.isEmpty()) {
-      this.collection.each(function(model, i){
-        var item = $("<li class='"+(i%3==0?'first':'')+""+(i%3==2?'last':'')+"'>")
-        ul_element.append(item)
-        new this.modelView({el: item, model: model})
-      }, this)
+      if(typeof this.collection.models[0].attributes.word != 'undefined') {
+        this.collection.each(function(model, i){
+          var item = $("<ul >")
+          ul_element.append(item)
+          new this.suggestedView({el: item, model: model})
+        }, this)
+      } else {
+        this.collection.each(function(model, i){
+          var item = $("<li class='"+(i%3==0?'first':'')+""+(i%3==2?'last':'')+"'>")
+          ul_element.append(item)
+          new this.modelView({el: item, model: model})
+        }, this)
+      }
     } else if(this.collection.page == 1) {
       this.el.html(_.template(this.emptyTemplate()))
     }

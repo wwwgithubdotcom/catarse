@@ -70,7 +70,11 @@ class Project < ActiveRecord::Base
   mount_uploader :video_thumbnail, LogoUploader
 
   def self.unaccent_search search
-    joins(:user).where("unaccent(projects.name || headline || about || coalesce(users.name,'') || coalesce(users.address_city,'')) ~* unaccent(?)", search)
+    result = joins(:user).where("to_tsvector('portuguese', unaccent(projects.name || headline || about || coalesce(users.name,'') || coalesce(users.address_city,''))) @@ to_tsquery('portuguese', unaccent(?))", search.split(' ').join(' & '))
+    if result.empty?
+      result = ProjectNameWord.where("word % ?", search.split(' ').join(' & '))
+    end
+    return result
   end
 
   def users_who_backed
