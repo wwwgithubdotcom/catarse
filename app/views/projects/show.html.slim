@@ -75,6 +75,8 @@
         .media_content_backers
           #project_backers.content.hide
         #project_comments.content.hide= render :partial => 'comments'
+        #project_statistics.content.hide
+          = render template: 'statistics/index'
         #project_about.content
           .midia
             .video

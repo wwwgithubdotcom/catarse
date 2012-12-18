@@ -56,6 +56,7 @@ Catarse::Application.routes.draw do
   match "/reward/:id" => "rewards#show", :as => :reward
   resources :posts, only: [:index, :create]
   resources :projects do
+    resources :statistics, controller: 'projects/statistics', only: [:index]
     resources :updates, :only => [:index, :create, :destroy]
     resources :rewards
     resources :backers, controller: 'projects/backers' do
