@@ -33,7 +33,7 @@
             .input
               = image_tag "catarse/icon_tag.png", :class => 'tag'
               = label_tag 'category', t('.category')
-              = select_tag 'category', options_from_collection_for_select(Category.all, "name", "name"), include_blank: true
+              = select_tag 'category', options_from_collection_for_select(Category.all, "name_pt", "name_pt"), include_blank: true
               .bootstrap-alert
                 span
                 .alert
