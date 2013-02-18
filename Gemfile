@@ -31,6 +31,7 @@ gem 'jquery-rails'
 gem 'initjs'
 
 # Authentication and Authorization
+#gem 'omniauth-oauth2'
 gem 'omniauth', "~> 1.1.0"
 gem 'omniauth-openid', '~> 1.0.1'
 gem 'omniauth-twitter', '~> 0.0.12'
@@ -111,5 +112,8 @@ group :test, :development do
 end
 
 group :development do
+  gem 'quiet_assets'
   gem 'mailcatcher'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
